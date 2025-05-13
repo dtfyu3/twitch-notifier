@@ -7,8 +7,8 @@ const config = {
     clientSecret: process.env.TWITCH_CLIENT_SECRET,
     webhookSecret: process.env.TWITCH_WEBHOOK_SECRET,
     streamerId: process.env.TWITCH_STREAMER_ID,
-    targetGame: "Valorant", 
-    keywords: ["турнир", "соревнование"] 
+    targetGame: process.env.GAME_NAME, 
+    keywords: ["Amazing", "Free", "RP"] 
   },
   telegram: {
     botToken: process.env.TELEGRAM_BOT_TOKEN,
