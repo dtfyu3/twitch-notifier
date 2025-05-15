@@ -8,7 +8,7 @@ const config = {
     webhookSecret: process.env.TWITCH_WEBHOOK_SECRET,
     streamerId: process.env.TWITCH_STREAMER_ID,
     targetGame: process.env.GAME_NAME, 
-    keywords: ["Amazing", "Free", "RP"] 
+    keywords: process.env.KEYWORDS.toLowerCase().split(',') || []; 
   },
   telegram: {
     botToken: process.env.TELEGRAM_BOT_TOKEN,
