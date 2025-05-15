@@ -24,12 +24,10 @@ function verifySignature(body, signature) {
 }
 
 // Отправка в Telegram
-async function sendTelegramAlert(title, game, vodUrl) {
-  const message = `
-    🎮 **Новый стрим!**  
-    **Игра:** ${game}  
-    **Название:** ${title}  
-    [Смотреть VOD](${vodUrl})
+async function sendTelegramAlert(title, game, vodUrl,streamerName) {
+  const message = `   
+    _streamerName_ Только что завершил стрим _${title}_.  
+    [Смотреть](${vodUrl})
   `;
   await axios.post(
     `https://api.telegram.org/bot${config.telegram.botToken}/sendMessage`,
@@ -63,6 +61,7 @@ async function checkStreamConditions() {
         shouldNotify: true, 
         title: vod.title, 
         game: vod.game_name, 
+        streamerName:data.data[0].user_name,
         vodUrl: `https://twitch.tv/videos/${vod.id}` 
       };
     }
@@ -85,9 +84,9 @@ module.exports = async (req, res) => {
 
     // Проверка события "стрим окончен"
     if (body.subscription?.type === "stream.offline") {
-      const { shouldNotify, title, game, vodUrl } = await checkStreamConditions();
+      const { shouldNotify, title, game, vodUrl,streamerName } = await checkStreamConditions();
       if (shouldNotify) {
-        await sendTelegramAlert(title, game, vodUrl);
+        await sendTelegramAlert(title, game, vodUrl,streamerName);
       }
     }
 
