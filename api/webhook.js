@@ -56,11 +56,11 @@ async function checkStreamConditions() {
     const isGameMatch = vod.game_name === config.twitch.targetGame;
     const isTitleMatch = config.twitch.keywords.some(keyword => vod.title.toLowerCase().includes(keyword));
     
-    if (isGameMatch && isTitleMatch) {
+    if (isTitleMatch) {
       return { 
         shouldNotify: true, 
         title: vod.title, 
-        game: vod.game_name, 
+        // game: vod.game_name, 
         streamerName:data.data[0].user_name,
         vodUrl: `https://twitch.tv/videos/${vod.id}` 
       };
@@ -86,7 +86,7 @@ module.exports = async (req, res) => {
     if (body.subscription?.type === "stream.offline") {
       const { shouldNotify, title, game, vodUrl,streamerName } = await checkStreamConditions();
       if (shouldNotify) {
-        await sendTelegramAlert(title, game, vodUrl,streamerName);
+        await sendTelegramAlert(title, vodUrl,streamerName);
       }
     }
 
