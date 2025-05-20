@@ -14,7 +14,7 @@ const config = {
     botToken: process.env.TELEGRAM_BOT_TOKEN,
     chatId: process.env.TELEGRAM_CHAT_ID
   },
-  google:{
+  google: {
     scriptUrl: process.env.GOOGLE_SCRIPT_URL
   }
 };
