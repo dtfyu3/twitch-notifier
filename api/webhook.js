@@ -22,7 +22,7 @@ const config = {
 async function logRawRequest(headers, body) {
   const rowData = {
     timestamp: new Date().toISOString(),
-    headers: JSON.stringify(headers),
+    headers: headers,
     raw_body: JSON.stringify(body),
     ip: headers['x-forwarded-for'] || 'unknown'
   };
