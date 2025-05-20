@@ -27,10 +27,12 @@ async function logRawRequest(headers, body) {
     ip: headers['x-forwarded-for'] || 'unknown'
   };
 
-  await axios.post(config.google.scriptUrl,{
-    token: process.env.GOOGLE_SECRET,
-    data: rowData
-  });
+  await axios.post(config.google.scriptUrl, rowData, {
+  headers: {
+    'Content-Type': 'application/json',
+    'X-Secret-Token': process.env.GOOGLE_SECRET
+  }
+});
 }
 // Проверка подписи Twitch
 function verifySignature(body, signature) {
