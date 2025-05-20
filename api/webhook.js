@@ -96,6 +96,7 @@ module.exports = async (req, res) => {
     await logRawRequest(req.headers, body);
     const signature = req.headers['twitch-eventsub-message-signature'];
 
+    if(!body)  return res.status(200).json({ error: "No body provided" });
     if (body.challenge) {
       console.log("Получен challenge, отвечаем...");
       return res.status(200).send(body.challenge);
