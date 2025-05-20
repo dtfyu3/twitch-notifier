@@ -21,7 +21,7 @@ const config = {
 
 async function logRawRequest(headers, body) {
   const rowData = {
-    timestamp: new Date().toLocaleString('ru-RU', { timeZone: 'Europe/Moscow' }),
+    timestamp: new Date().toISOString(),
     headers: JSON.stringify(headers),
     raw_body: JSON.stringify(body),
     ip: headers['x-forwarded-for'] || 'unknown'
