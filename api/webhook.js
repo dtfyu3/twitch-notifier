@@ -13,9 +13,22 @@ const config = {
   telegram: {
     botToken: process.env.TELEGRAM_BOT_TOKEN,
     chatId: process.env.TELEGRAM_CHAT_ID
+  },
+  google:{
+    scriptUrl: process.env.GOOGLE_SCRIPT_URL
   }
 };
 
+async function logRawRequest(headers, body) {
+  const rowData = {
+    timestamp: new Date().toISOString(),
+    headers: JSON.stringify(headers),
+    raw_body: JSON.stringify(body),
+    ip: headers['x-forwarded-for'] || 'unknown'
+  };
+
+  await axios.post(config.google.scriptUrl, rowData);
+}
 // Проверка подписи Twitch
 function verifySignature(body, signature) {
   const hmac = createHmac('sha256', config.twitch.webhookSecret);
@@ -75,6 +88,7 @@ module.exports = async (req, res) => {
   
   try {
     const body = req.body;
+    await logRawRequest(req.headers, body);
     const signature = req.headers['twitch-eventsub-message-signature'];
 
     if (body.challenge) {
