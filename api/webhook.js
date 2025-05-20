@@ -93,7 +93,7 @@ module.exports = async (req, res) => {
   
   try {
     const body = req.body;
-    console.log(JSON.stringify(req.headers));
+    //console.log(JSON.stringify(req.headers));
     await logRawRequest(req.headers, body);
     const signature = req.headers['twitch-eventsub-message-signature'];
 
