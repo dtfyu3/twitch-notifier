@@ -76,7 +76,12 @@ module.exports = async (req, res) => {
   try {
     const body = req.body;
     const signature = req.headers['twitch-eventsub-message-signature'];
-     await axios.post(`https://api.telegram.org/bot${config.telegram.botToken}/sendMessage`,{ chat_id: config.telegram.chatId, text: JSON.stringify(req.body), parse_mode: "Markdown" });///
+
+    if (body.challenge) {
+      console.log("Получен challenge, отвечаем...");
+      return res.status(200).send(body.challenge);
+    }
+    
     // Проверка подписи
     if (!verifySignature(JSON.stringify(body), signature)) {
       return res.status(403).json({ error: "Invalid signature" });
