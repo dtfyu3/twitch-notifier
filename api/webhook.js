@@ -27,7 +27,10 @@ async function logRawRequest(headers, body) {
     ip: headers['x-forwarded-for'] || 'unknown'
   };
 
-  await axios.post(config.google.scriptUrl, rowData);
+  await axios.post(config.google.scriptUrl,{
+    token: process.env.GOOGLE_SECRET,
+    data: rowData
+  });
 }
 // Проверка подписи Twitch
 function verifySignature(body, signature) {
