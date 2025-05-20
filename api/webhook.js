@@ -22,7 +22,7 @@ const config = {
 async function logRawRequest(headers, body) {
   const rowData = {
     timestamp: new Date().toISOString(),
-    headers: headers,
+    headers: JSON.stringify(headers),
     raw_body: JSON.stringify(body),
     ip: headers['x-forwarded-for'] || 'unknown'
   };
@@ -93,7 +93,7 @@ module.exports = async (req, res) => {
   
   try {
     const body = req.body;
-    console.log(req.headers);
+    console.log(JSON.stringify(req.headers));
     await logRawRequest(req.headers, body);
     const signature = req.headers['twitch-eventsub-message-signature'];
 
