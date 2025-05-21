@@ -35,9 +35,11 @@ async function logRawRequest(headers, body) {
 });
 }
 // Проверка подписи Twitch
-function verifySignature(body, signature) {
+function verifySignature(body, signature, headers) {
+  const timestamp = headers['twitch-eventsub-message-timestamp'];
+  const messageId = headers['twitch-eventsub-message-id'];
   const hmac = createHmac('sha256', config.twitch.webhookSecret);
-  hmac.update(body);
+  hmac.update(messageId + timestamp + body);
   return `sha256=${hmac.digest('hex')}` === signature;
 }
 
@@ -104,7 +106,7 @@ module.exports = async (req, res) => {
     }
     
     // Проверка подписи
-    if (!verifySignature(JSON.stringify(body), signature)) {
+    if (!verifySignature(JSON.stringify(body), signature,req.headers)) {
       return res.status(403).json({ error: "Invalid signature" });
     }
 
