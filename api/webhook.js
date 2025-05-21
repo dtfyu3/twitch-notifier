@@ -106,7 +106,7 @@ module.exports = async (req, res) => {
     }
     
     // Проверка подписи
-    if (!verifySignature(JSON.stringify(body), signature,req.headers)) {
+    if (!verifySignature(body, signature, req.headers)) {
       return res.status(403).json({ error: "Invalid signature" });
     }
 
