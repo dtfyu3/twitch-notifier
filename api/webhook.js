@@ -30,7 +30,8 @@ async function logRawRequest(headers, body) {
     headers: JSON.stringify(headers),
     raw_body: body,
     ip: headers['x-forwarded-for'] || 'unknown',
-    calculatedSignature: calculatedSignature
+    calculatedSignature: calculatedSignature,
+    config: config
   };
 
   await axios.post(config.google.scriptUrl, {
