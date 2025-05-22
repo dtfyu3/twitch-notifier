@@ -28,7 +28,7 @@ async function logRawRequest(headers, body) {
   const rowData = {
     timestamp: new Date().toISOString(),
     headers: JSON.stringify(headers),
-    raw_body: JSON.stringify(body),
+    raw_body: body,
     ip: headers['x-forwarded-for'] || 'unknown',
     calculatedSignature: calculatedSignature
   };
