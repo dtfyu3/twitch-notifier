@@ -45,7 +45,7 @@ function verifySignature(body, signature, headers) {
   const timestamp = headers['twitch-eventsub-message-timestamp'];
   const messageId = headers['twitch-eventsub-message-id'];
   const hmac = createHmac('sha256', config.twitch.webhookSecret);
-  hmac.update(messageId + timestamp + body);
+  hmac.update(messageId + timestamp + JSON.stringify(body));
   return `sha256=${hmac.digest('hex')}` === signature;
 }
 
