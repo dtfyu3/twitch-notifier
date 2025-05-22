@@ -3,8 +3,8 @@ const axios = require('axios');
 
 const config = {
   twitch: {
-    clientId: process.env.TWITCH_CLIENT_ID,
-    clientSecret: process.env.TWITCH_CLIENT_SECRET,
+    clientId: process.env.CLIENT_ID,
+    clientSecret: process.env.CLIENT_SECRET,
     webhookSecret: process.env.TWITCH_WEBHOOK_SECRET,
     streamerId: process.env.TWITCH_STREAMER_ID,
     targetGame: process.env.GAME_NAME, 
@@ -30,8 +30,7 @@ async function logRawRequest(headers, body) {
     headers: JSON.stringify(headers),
     raw_body: body,
     ip: headers['x-forwarded-for'] || 'unknown',
-    calculatedSignature: calculatedSignature,
-    config: JSON.stringify(config)
+    calculatedSignature: calculatedSignature
   };
 
   await axios.post(config.google.scriptUrl, {
