@@ -51,10 +51,8 @@ function verifySignature(body, signature, headers) {
 
 // Отправка в Telegram
 async function sendTelegramAlert(title, vodUrl, streamerName) {
-  const message = `   
-    _${streamerName}_ Только что завершил стрим _${title}_.  
-    [Смотреть](${vodUrl})
-  `;
+  const message = `_${streamerName}_ только что завершил стрим _${title}_.  
+[Смотреть](${vodUrl})`;
   await axios.post(
     `https://api.telegram.org/bot${config.telegram.botToken}/sendMessage`,
     { chat_id: config.telegram.chatId, text: message, parse_mode: "Markdown" }
