@@ -27,10 +27,10 @@ async function logRawRequest(headers, body) {
   const calculatedSignature = `sha256=${hmac.digest('hex')}`;
   const rowData = {
     timestamp: new Date().toISOString(),
-    headers: JSON.stringify(headers),
+    //headers: JSON.stringify(headers),
     raw_body: body,
     ip: headers['x-forwarded-for'] || 'unknown',
-    calculatedSignature: calculatedSignature
+    validSign: calculatedSignature === headers['twitch-eventsub-message-signature']
   };
 
   await axios.post(config.google.scriptUrl, {
