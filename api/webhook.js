@@ -25,12 +25,13 @@ async function logRawRequest(headers, body) {
   const hmac = createHmac('sha256', config.twitch.webhookSecret);
   hmac.update(messageId + timestamp + JSON.stringify(body));
   const calculatedSignature = `sha256=${hmac.digest('hex')}`;
+  const isValidSign = calculatedSignature === headers['twitch-eventsub-message-signature'];
   const rowData = {
     timestamp: new Date().toISOString(),
     //headers: JSON.stringify(headers),
     raw_body: body,
     ip: headers['x-forwarded-for'] || 'unknown',
-    validSign: calculatedSignature === headers['twitch-eventsub-message-signature']
+    validSign: isValidSign
   };
 
   await axios.post(config.google.scriptUrl, {
