@@ -26,12 +26,16 @@ async function logRawRequest(headers, body) {
   hmac.update(messageId + timestamp + JSON.stringify(body));
   const calculatedSignature = `sha256=${hmac.digest('hex')}`;
   const isValidSign = calculatedSignature === headers['twitch-eventsub-message-signature'];
+  const { shouldNotify, title, game, vodUrl, streamerName } = await checkStreamConditions();
+  let url;
+  if (shouldNotify && isValidSign) url = vodUrl
+  else url = null;
   const rowData = {
     timestamp: new Date().toISOString(),
-    //headers: JSON.stringify(headers),
     raw_body: body,
     ip: headers['x-forwarded-for'] || 'unknown',
-    validSign: isValidSign
+    validSign: isValidSign,
+    url: url
   };
 
   await axios.post(config.google.scriptUrl, {
