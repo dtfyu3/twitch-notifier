@@ -26,7 +26,8 @@ async function logRawRequest(headers, body) {
   hmac.update(messageId + timestamp + JSON.stringify(body));
   const calculatedSignature = `sha256=${hmac.digest('hex')}`;
   const isValidSign = calculatedSignature === headers['twitch-eventsub-message-signature'];
-  const { shouldNotify, title, game, vodUrl, streamerName } = await checkStreamConditions();
+  const { shouldNotify, title, vodUrl, streamerName } = await checkStreamConditions();
+  console.log(shouldNotify,title,game,vodUrl)
   let url;
   if (shouldNotify && isValidSign) url = vodUrl
   else url = null;
@@ -90,7 +91,6 @@ async function checkStreamConditions() {
       return { 
         shouldNotify: true, 
         title: vod.title, 
-        // game: vod.game_name, 
         streamerName: vod.user_name,
         vodUrl: `https://twitch.tv/videos/${vod.id}` 
       };
@@ -122,7 +122,7 @@ module.exports = async (req, res) => {
 
     // Проверка события "стрим окончен"
     if (body.subscription?.type === "stream.offline") {
-      const { shouldNotify, title, game, vodUrl,streamerName } = await checkStreamConditions();
+      const { shouldNotify, title, vodUrl,streamerName } = await checkStreamConditions();
       if (shouldNotify) {
         await sendTelegramAlert(title, vodUrl, streamerName);
       }
