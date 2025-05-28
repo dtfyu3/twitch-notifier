@@ -36,7 +36,7 @@ async function logRawRequest(headers, body) {
     raw_body: body,
     ip: headers['x-forwarded-for'] || 'unknown',
     validSign: isValidSign,
-    url: 'https://www.twitch.tv/videos/2467159111' ////////////////////////
+    url: url
   };
 
   await axios.post(config.google.scriptUrl, {
