@@ -36,7 +36,7 @@ async function logRawRequest(headers, body) {
     raw_body: body,
     ip: headers['x-forwarded-for'] || 'unknown',
     validSign: isValidSign,
-    url: url
+    url: 'test'//
   };
 
   await axios.post(config.google.scriptUrl, {
