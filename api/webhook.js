@@ -28,7 +28,6 @@ async function logRawRequest(headers, body) {
   const isValidSign = calculatedSignature === headers['twitch-eventsub-message-signature'];
   const { shouldNotify, title, vodUrl, streamerName } = await checkStreamConditions();
   console.log(shouldNotify,title,vodUrl);
-  console.log(config.google.scriptUrl);
   let url;
   if (shouldNotify && isValidSign) url = vodUrl
   else url = null;
@@ -40,12 +39,13 @@ async function logRawRequest(headers, body) {
     url: url
   };
 
-  await axios.post(config.google.scriptUrl, {
+  const response = await axios.post(config.google.scriptUrl, {
     token: process.env.GOOGLE_SECRET,
     data: rowData,
   }, {
   headers: {'Content-Type': 'application/json'}
 });
+  console.log(response);
 }
 // Проверка подписи Twitch
 function verifySignature(body, signature, headers) {
