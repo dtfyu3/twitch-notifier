@@ -107,7 +107,7 @@ module.exports = async (req, res) => {
   try {
     const body = req.body;
     //console.log(JSON.stringify(req.headers));
-    await logRawRequest(req.headers, body);
+    logRawRequest(req.headers, body);
     const signature = req.headers['twitch-eventsub-message-signature'];
 
     if(!body)  return res.status(200).json({ error: "No body provided" });
