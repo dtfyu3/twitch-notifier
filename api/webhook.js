@@ -27,7 +27,8 @@ async function logRawRequest(headers, body) {
   const calculatedSignature = `sha256=${hmac.digest('hex')}`;
   const isValidSign = calculatedSignature === headers['twitch-eventsub-message-signature'];
   const { shouldNotify, title, vodUrl, streamerName } = await checkStreamConditions();
-  console.log(shouldNotify,title,vodUrl)
+  console.log(shouldNotify,title,vodUrl);
+  console.log(config.google.scriptUrl);
   let url;
   if (shouldNotify && isValidSign) url = vodUrl
   else url = null;
