@@ -15,7 +15,8 @@ const config = {
     chatId: process.env.TELEGRAM_CHAT_ID
   },
   google: {
-    scriptUrl: process.env.GOOGLE_SCRIPT_URL
+    scriptUrl: process.env.GOOGLE_SCRIPT_URL,
+    secret: process.env.GOOGLE_SECRET
   }
 };
 
