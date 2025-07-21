@@ -17,6 +17,9 @@ const config = {
   google: {
     scriptUrl: process.env.GOOGLE_SCRIPT_URL,
     secret: process.env.GOOGLE_SECRET
+  },
+  app: {
+    isTurnedOn: process.env.NOTIFIER_ON.toLowerCase(),
   }
 };
 
@@ -123,11 +126,13 @@ module.exports = async (req, res) => {
     }
 
     // Проверка события "стрим окончен"
-    if (body.subscription?.type === "stream.offline") {
+    if (config.app.isTurnedOn === 'true'){
+      if (body.subscription?.type === "stream.offline") {
       const { shouldNotify, title, vodUrl,streamerName } = await checkStreamConditions();
       if (shouldNotify) {
         await sendTelegramAlert(title, vodUrl, streamerName);
       }
+    }
     }
 
     res.status(200).json({ status: "OK" });
