@@ -109,7 +109,8 @@ module.exports = async (req, res) => {
   if (req.method !== 'POST') return res.status(405).end();
   
   try {
-    const body = req.body;
+    if (config.app.isTurnedOn === 'true'){
+      const body = req.body;
     //console.log(JSON.stringify(req.headers));
     logRawRequest(req.headers, body);
     const signature = req.headers['twitch-eventsub-message-signature'];
@@ -126,7 +127,7 @@ module.exports = async (req, res) => {
     }
 
     // Проверка события "стрим окончен"
-    if (config.app.isTurnedOn === 'true'){
+   
       if (body.subscription?.type === "stream.offline") {
       const { shouldNotify, title, vodUrl,streamerName } = await checkStreamConditions();
       if (shouldNotify) {
@@ -134,7 +135,7 @@ module.exports = async (req, res) => {
       }
     }
     }
-
+    
     res.status(200).json({ status: "OK" });
   } catch (error) {
     console.error(error);
