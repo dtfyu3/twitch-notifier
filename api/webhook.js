@@ -111,7 +111,6 @@ module.exports = async (req, res) => {
   try {
     if (config.app.isTurnedOn === 'true'){
       const body = req.body;
-    //console.log(JSON.stringify(req.headers));
     logRawRequest(req.headers, body);
     const signature = req.headers['twitch-eventsub-message-signature'];
 
