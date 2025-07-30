@@ -125,7 +125,6 @@ module.exports = async (req, res) => {
       return res.status(403).json({ error: "Invalid signature" });
     }
 
-    // Проверка события "стрим окончен"
    
       if (body.subscription?.type === "stream.offline") {
       const { shouldNotify, title, vodUrl,streamerName } = await checkStreamConditions();
